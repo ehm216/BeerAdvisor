@@ -8,6 +8,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Spinner;
+import android.widget.TextView;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -15,38 +19,28 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
     }
+    public void onClickFindBeer(View view){
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
+        //getting the type of beer
+        TextView brands = (TextView) findViewById(R.id.brands);
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+        //reading the value of the spinner
+        Spinner color = (Spinner) findViewById(R.id.color);
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        //get the selected item of the spinner
+        String beerType = String.valueOf(color.getSelectedItem());
+
+        BeerExpert be = new BeerExpert();
+        List<String> l = be.getBrands(beerType);
+
+        StringBuilder sb = new StringBuilder();
+
+        for(int i = 0; i < l.size(); i++){
+            sb.append(l.get(i)).append("\n");
         }
 
-        return super.onOptionsItemSelected(item);
+        //change the selected Item
+        brands.setText(sb);
     }
 }
